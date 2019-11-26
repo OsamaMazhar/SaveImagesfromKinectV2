@@ -5,3 +5,4 @@
 
 !.gitignore
 !SaveImage_Kinect_fwriteboth.cpp
+!bin-to-png-and-videos.cpp
