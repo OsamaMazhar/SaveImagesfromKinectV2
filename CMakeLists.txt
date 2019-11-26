@@ -2,10 +2,10 @@ cmake_minimum_required (VERSION 2.6)
 cmake_policy(SET CMP0012 NEW)
 PROJECT("KinectOpenCV")
 
-set(freenect2_DIR /home/osama/Programs/freenect2/lib/cmake/freenect2)
+set(freenect2_DIR ~/Programs/freenect2/lib/cmake/freenect2)
 ADD_DEFINITIONS(-std=c++11)
 
-find_package(OpenCV 3.3.1 EXACT PATHS /home/osama/Programs/opencv-3.3.1/build QUIET)
+find_package(OpenCV 3.3.1 EXACT PATHS ~/Programs/opencv-3.3.1/build QUIET)
 MESSAGE( "OpenCV version: ${OpenCV_VERSION}")
 
 find_package(freenect2 REQUIRED)
