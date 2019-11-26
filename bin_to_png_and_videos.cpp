@@ -1,3 +1,28 @@
+/* This file is part of SaveImagesfromKinectV2 program.
+* Program description : This reads our custom .bin files which contain RGB and
+* registered Depth saved from Kinect V2 recordings via SaveImage_Kinect_fwriteboth.cpp
+* After reading, it saves color and depth images separately in jpg/png, while also
+* convert them into color and depth videos. 
+
+* libfreenet2 code to stream RGB and depth from Kinect V2 is refered from
+* sample code provided from libfreenet2: Protonect.cpp
+* https://github.com/OpenKinect/libfreenect2
+
+* Copyright (C) 2019 -  Osama Mazhar (osamazhar@yahoo.com). All Right reserved.
+*
+* SaveImagesfromKinectV2 is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, version 3.
+*
+* SaveImagesfromKinectV2 is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with SaveImagesfromKinectV2.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 #include <iostream>
 #include <stdio.h>
 #include <iomanip>
@@ -28,7 +53,7 @@ int main(int argc, const char** argv)
   // base_directory location is very important. We set to current folder for now
   // It should be set to the root location of the folder in which we have .bin files.
   // Thus for now, the folder with bin files is in the root location of this program.
-  
+
   cv::String base_directory = "./";
   cv::String mainfolder = base_directory + Image_base_name;
   cv::String Image_name = mainfolder + "/" + Image_base_name + "_%d.bin";
