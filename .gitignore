@@ -6,3 +6,4 @@
 !.gitignore
 !SaveImage_Kinect_fwriteboth.cpp
 !bin_to_png_and_videos.cpp
+!README.md

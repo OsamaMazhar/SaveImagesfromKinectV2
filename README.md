@@ -1,0 +1,3 @@
+`SaveImage_Kinect_fwriteboth.cpp` is designed to acquires frames from Kinect V2, and saves RGB and registered Depth images into a folder with `.bin` extension. The folder name is taken as input from the user. Make sure `imagename` is set correctly in `SaveImage_Kinect_fwriteboth.cpp` file.
+
+`bin_to_png_and_videos.cpp` can be used to read our custom .bin files which contain RGB and registered Depth saved from Kinect V2 recordings via `SaveImage_Kinect_fwriteboth.cpp` After reading, it saves color and depth images separately in jpg/png, while also convert them into color and depth videos. Make sure `base_directory` is properly set where the original folder with `.bin` files is located.
