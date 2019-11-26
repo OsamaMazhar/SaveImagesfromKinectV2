@@ -1,0 +1,7 @@
+# ignore everything
+*
+
+# Except
+
+!.gitignore
+!SaveImage_Kinect_fwriteboth.cpp

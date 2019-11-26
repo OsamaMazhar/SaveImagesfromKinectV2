@@ -1,14 +1,12 @@
 /* This file is part of SaveImagesfromKinectV2 program.
 * Program description : This program acquires frames from Kinect V2,
-* send them to skeleton extractor, receives skeleton coordinates from
-* skeleton extractor, crops hand bounding box, pass it through our
-* hand gestures detector and outputs the gesture class.
+* and saves RGB and registered Depth images into a folder with .bin extension.
+* The foler name is taken as input from the user.
+* Make sure 'imagename' is set correctly.
 
 * libfreenet2 code to stream RGB and depth from Kinect V2 is refered from
 * sample code provided from libfreenet2: Protonect.cpp
 * https://github.com/OpenKinect/libfreenect2
-
-* For more description and citation:
 
 * Copyright (C) 2019 -  Osama Mazhar (osamazhar@yahoo.com). All Right reserved.
 *
@@ -16,7 +14,7 @@
 * it under the terms of the GNU General Public License as published by
 * the Free Software Foundation, version 3.
 *
-* Foobar is distributed in the hope that it will be useful,
+* SaveImagesfromKinectV2 is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
@@ -34,7 +32,6 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include "opencv2/core/core.hpp"
-// #include "opencv2/contrib/contrib.hpp"
 #include "opencv2/highgui/highgui.hpp"
 
 #include <libfreenect2/libfreenect2.hpp>
@@ -163,7 +160,6 @@ int main(int argc, const char** argv)
     //! [registration setup]
 
     cv::Mat rgbmat, depthmatUndistorted, irmat, rgbd, depth_fullscale;
-    // String imagename;
     unsigned int i = 1;
     //! [loop start]
 
@@ -175,9 +171,6 @@ int main(int argc, const char** argv)
         libfreenect2::Frame *depth = frames[libfreenect2::Frame::Depth];
         //! [loop start]
 
-        // cv::Mat(rgb->height, rgb->width, CV_8UC4, rgb->data).copyTo(rgbmat);
-        // cv::Mat(ir->height, ir->width, CV_32FC1, ir->data).copyTo(irmat);
-        // cv::Mat(depth->height, depth->width, CV_32FC1, depth->data).copyTo(depthmat);
         auto tinit = std::chrono::high_resolution_clock::now();
 
         cv::Mat rgbmat(rgb->height, rgb->width, CV_8UC4, rgb->data);
@@ -196,25 +189,16 @@ int main(int argc, const char** argv)
         cv::namedWindow("Depth Map", cv::WINDOW_NORMAL);
         cv::imshow("Depth Map", depth_fullscale / 4096.0f);
         // IMPORTANT TO PUT THIS PATH CORRECT //
-        // imagename = "/home/osama/Programs/SaveImagesfromKinect/" + folder_rgb + "/" + folder_rgb + "_%d.bin";
         std::stringstream imagename;
-        imagename << "/home/osama/Programs/SaveImagesfromKinect/" << folder_rgb << "/" << folder_rgb << "_" << i << ".bin";
-
-        // char filename_rgb[80];
-        // sprintf(filename_rgb,imagename.c_str(),i);
+        imagename << "./" << folder_rgb << "/" << folder_rgb << "_" << i << ".bin";
 
         int sizeofdepthimage[2] = {depth_fullscale.rows, depth_fullscale.cols};
 
-        // FILE *FP=fopen(imagename.str().c_str(), "wb");
         std::fstream file(imagename.str(), std::ios::binary | std::ios::out);
         file.write((char*)sizeofdepthimage, 2*sizeof(int));
         file.write((char*)rgbmat.data, rgbmat.channels() * rgbmat.rows * rgbmat.cols*sizeof(uchar));
         file.write((char*)depth_fullscale.data, depth_fullscale.rows * depth_fullscale.cols*sizeof(float));
 
-        // fwrite(sizeofdepthimage, sizeof(int), 2, FP);
-        // fwrite(rgbmat.data, sizeof(uchar), rgbmat.channels() * rgbmat.rows * rgbmat.cols, FP);
-        // fwrite(depth_fullscale.data, sizeof(float), depth_fullscale.rows * depth_fullscale.cols, FP);
-        // fclose(FP);
         auto twriteimage = std::chrono::high_resolution_clock::now();
 
         std::chrono::duration<double, std::milli> fp_ms = twriteimage-tinit;
@@ -222,15 +206,13 @@ int main(int argc, const char** argv)
         std::cout << "--------------------------------------------------------"<< std::endl;
 
         i++;
-         // imwrite("osama.exr", depth_full_scale);
 
         int key = cv::waitKey(1);
         protonect_shutdown = protonect_shutdown || (key > 0 && ((key & 0xFF) == 27)); // shutdown on escape
 
-    //! [loop end]
+        //! [loop end]
         listener.release(frames);
     }
-    //! [loop end]
 
     //! [stop]
     dev->stop();
